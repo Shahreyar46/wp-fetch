@@ -1,0 +1,832 @@
+/**
+ * WP Plugin Data Fetcher - Admin Styles
+ * Version 5.0.0 - SCSS version for React
+ */
+
+// Variables
+$primary-color: #007cba;
+$primary-hover: #135e96;
+$secondary-color: #2271b1;
+$danger-color: #d63638;
+$danger-hover: #c13033;
+$success-color: #46b450;
+$text-dark: #23282d;
+$text-medium: #666;
+$text-light: #999;
+$background-light: #f0f0f1;
+$background-white: #fff;
+$border-color: #ccd0d4;
+$border-light: #ddd;
+$border-emphasis: #e5e5e5;
+$max-width: 1400px;
+$content-max-width: 900px;
+$form-max-width: 600px;
+
+// Mixins
+@mixin button-style($bg-color, $hover-color) {
+  background-color: $bg-color;
+  border-color: $bg-color;
+  color: white;
+  
+  &:hover {
+    background-color: $hover-color;
+    border-color: $hover-color;
+  }
+}
+
+@mixin card-style {
+  background: $background-white;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  max-width: 100%;
+}
+
+@mixin loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top: 2px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+}
+
+// Main containers
+.wrap {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 20px;
+  
+  > h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+  }
+}
+
+.card {
+  @include card-style;
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: $text-dark;
+  }
+  
+  > p {
+    text-align: center;
+    color: $text-medium;
+    margin-bottom: 30px;
+  }
+}
+
+// Form elements
+.form-group {
+  margin-bottom: 20px;
+  max-width: $form-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: $text-dark;
+  }
+}
+
+.checkbox-group {
+  text-align: center;
+  
+  label {
+    font-weight: normal;
+    margin: 0 15px;
+    display: inline-block;
+    cursor: pointer;
+    
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+  }
+}
+
+.regular-text {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
+}
+
+// Buttons
+.button-group {
+  text-align: center;
+  margin-top: 20px;
+  
+  .button {
+    margin: 0 5px;
+  }
+}
+
+.button {
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  &.button-primary {
+    &:disabled {
+      background: $primary-color !important;
+      border-color: $primary-color !important;
+    }
+  }
+}
+
+#cancel-batch {
+  @include button-style($danger-color, $danger-hover);
+}
+
+// Progress bar
+.progress-bar {
+  width: 100%;
+  height: 30px;
+  background-color: $background-light;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0;
+  
+  &-fill {
+    height: 100%;
+    background-color: $primary-color;
+    transition: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    
+    &.transitioning {
+      transition: width 0.3s ease;
+    }
+  }
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 30px;
+  color: $text-dark;
+  font-weight: 600;
+  z-index: 1;
+}
+
+// Batch status
+#batch-status {
+  text-align: center;
+  font-size: 16px;
+  margin: 15px 0;
+  color: $text-medium;
+  
+  &.error,
+  .error {
+    color: $danger-color;
+  }
+}
+
+#batch-info {
+  text-align: center;
+  color: $text-medium;
+  font-size: 14px;
+  margin-top: 10px;
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  small {
+    color: $text-light;
+  }
+}
+
+// Results section
+#results-summary {
+  margin: 20px auto;
+  max-width: $form-max-width;
+}
+
+.results-summary-content {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 3px;
+  border-left: 4px solid $primary-color;
+  
+  h4 {
+    margin-top: 0;
+    color: $text-dark;
+  }
+  
+  p {
+    margin: 8px 0;
+  }
+  
+  .error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px 0;
+  }
+}
+
+// Download buttons
+.download-buttons-top {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  border-bottom: 1px solid $border-light;
+  padding-bottom: 20px;
+  
+  .button {
+    min-width: 150px;
+  }
+}
+
+// Tab navigation
+.data-tabs {
+  display: flex;
+  gap: 0;
+  margin: 20px 0;
+}
+
+.data-tab {
+  padding: 10px 20px;
+  background: $border-light;
+  color: #333;
+  border: 1px solid #ccc;
+  border-right: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: normal;
+  font-size: 14px;
+  
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+    border-right: 1px solid #ccc;
+  }
+  
+  &:hover {
+    background: darken($border-light, 5%);
+  }
+  
+  &.active {
+    background: $background-white;
+    color: #000;
+    font-weight: 600;
+    border-color: $secondary-color;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Tab content
+.tab-content {
+  background: $background-white;
+  min-height: 400px;
+  margin-top: -1px;
+  overflow: visible;
+}
+
+// Copy and download buttons
+.copy-json {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 12px;
+  background: $background-white;
+  border: 2px solid $danger-color;
+  color: $danger-color;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  z-index: 10;
+  
+  &:hover {
+    background: $danger-color;
+    color: $background-white;
+  }
+}
+
+.tab-pane .download-json {
+  background: $secondary-color;
+  color: $background-white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 10px;
+  
+  &:hover {
+    background: darken($secondary-color, 10%);
+  }
+}
+
+// JSON viewer
+.json-viewer {
+  background: #f5f5f5;
+  border: 1px solid $border-light;
+  border-radius: 3px;
+  padding: 20px;
+  overflow: auto;
+  max-height: 600px;
+  min-height: 200px;
+  margin: 60px 0 20px 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre;
+  word-wrap: normal;
+  word-break: normal;
+  overflow-x: auto;
+  overflow-y: auto;
+  
+  &.empty {
+    text-align: center;
+    color: $text-medium;
+    font-style: italic;
+  }
+}
+
+// Review and support summaries
+.support-summary,
+.review-summary {
+  background: $background-light;
+  padding: 15px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  color: #0073aa;
+  text-align: left;
+  font-weight: 600;
+  border-left: 4px solid #0073aa;
+  position: relative;
+  z-index: 1;
+}
+
+// Preview controls
+.preview-controls {
+  margin: 20px auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  max-width: $form-max-width;
+  
+  label {
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  select {
+    min-width: 200px;
+  }
+}
+
+// Preview content
+#preview-content {
+  border: 1px solid $border-emphasis;
+  border-radius: 3px;
+  padding: 30px;
+  background: #fafafa;
+  max-width: 1200px;
+  margin: 0 auto;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+// Data preview styles
+.no-data {
+  text-align: center;
+  color: $text-medium;
+  padding: 40px;
+  font-style: italic;
+}
+
+.plugin-details-preview,
+.reviews-preview,
+.support-preview {
+  max-width: $content-max-width;
+  margin: 0 auto;
+}
+
+// Plugin details preview
+.plugin-details-preview {
+  h3 {
+    margin-top: 0;
+    color: $text-dark;
+    font-size: 1.5em;
+  }
+  
+  .description {
+    color: $text-medium;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+  padding: 20px;
+  background: $background-light;
+  border-radius: 3px;
+}
+
+.detail-item {
+  padding: 10px;
+  background: $background-white;
+  border-radius: 3px;
+  border: 1px solid $border-light;
+  
+  strong {
+    display: block;
+    margin-bottom: 5px;
+    color: $text-dark;
+  }
+}
+
+.detail-description {
+  margin-top: 30px;
+  line-height: 1.6;
+  
+  h4 {
+    color: $text-dark;
+    margin-bottom: 15px;
+  }
+}
+
+// Reviews and support previews
+.reviews-preview,
+.support-preview {
+  .summary {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: $text-dark;
+    text-align: center;
+  }
+}
+
+.review-item,
+.ticket-item {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  background: $background-white;
+  transition: box-shadow 0.2s;
+  
+  &:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.review-header,
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-title,
+.ticket-title {
+  font-weight: 600;
+  color: $text-dark;
+  flex: 1;
+}
+
+.review-rating {
+  color: #ffb900;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.review-meta,
+.ticket-meta {
+  font-size: 0.9em;
+  color: $text-medium;
+  margin-bottom: 10px;
+}
+
+.review-content,
+.ticket-content {
+  color: #444;
+  line-height: 1.5;
+}
+
+// Ticket status
+.ticket-status {
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  
+  &.resolved {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  &.open {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+// More items indicator
+.more-items {
+  text-align: center;
+  color: $text-medium;
+  font-style: italic;
+  margin-top: 20px;
+  padding: 15px;
+  background: $background-light;
+  border-radius: 3px;
+}
+
+// Load more
+.load-more-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  border-top: 1px solid $border-light;
+  clear: both;
+  
+  .button {
+    min-width: 150px;
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.load-more-preview {
+  text-align: center;
+  margin: 20px 0;
+  padding: 15px;
+  background: $background-light;
+  border-radius: 3px;
+}
+
+// Loading states
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  @include loading-spinner;
+}
+
+// Animations
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Error and success messages
+.error {
+  color: $danger-color;
+  font-weight: normal;
+}
+
+.error-message {
+  background-color: #fef1f1;
+  border: 1px solid $danger-color;
+  color: $danger-color;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 15px auto;
+  max-width: $form-max-width;
+}
+
+.success-message {
+  background-color: #ecf7ed;
+  border: 1px solid $success-color;
+  color: #2e7d32;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 15px auto;
+  max-width: $form-max-width;
+}
+
+// Download notice
+.download-notice {
+  background: $background-light;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+// JSON content formatting
+#json-reviews,
+#json-support,
+#json-details {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+// Tab content scrolling
+#tab-reviews,
+#tab-support {
+  position: relative;
+  overflow: visible;
+  height: auto;
+  min-height: 400px;
+}
+
+// Utilities
+.hidden {
+  display: none !important;
+}
+
+// Accessibility improvements
+.button:focus,
+.data-tab:focus {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+input[type="checkbox"]:focus {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// Custom scrollbar styling
+.json-viewer,
+#preview-content {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #666;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .wrap {
+    padding: 10px;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .download-buttons-top {
+    flex-direction: column;
+    
+    .button {
+      width: 100%;
+    }
+  }
+  
+  .data-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .data-tab {
+    flex: 1 1 45%;
+    text-align: center;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .review-header,
+  .ticket-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-rating,
+  .ticket-status {
+    margin-top: 10px;
+  }
+  
+  .preview-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .json-viewer {
+    font-size: 12px;
+    padding: 15px;
+    margin-top: 70px;
+  }
+  
+  .copy-json {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+}
+
+// Print styles
+@media print {
+  .button,
+  .button-group,
+  .download-buttons-top,
+  .data-tabs {
+    display: none !important;
+  }
+  
+  .card {
+    border: none;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+  
+  .json-viewer {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+// Ensure proper vertical flow
+#batch-results {
+  overflow: visible;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .button {
+    border-width: 2px;
+  }
+  
+  .progress-bar-fill {
+    background-color: #000;
+  }
+  
+  .card {
+    border-width: 2px;
+  }
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #1e1e1e;
+    color: #e1e1e1;
+  }
+  
+  .json-viewer {
+    background: #2d2d2d;
+    color: #e1e1e1;
+  }
+  
+  .button {
+    background: #333;
+    color: #fff;
+    
+    &:hover {
+      background: #444;
+    }
+  }
+}
