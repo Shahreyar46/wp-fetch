@@ -43,9 +43,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+.form-group .input-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
 .form-group label {
   display: block;
-  margin-bottom: 5px;
   font-weight: 600;
   color: #23282d;
 }
@@ -73,9 +77,11 @@
 .button-group {
   text-align: center;
   margin-top: 20px;
+  margin-left: 22rem;
 }
 .button-group .button {
   margin: 0 5px;
+  border-radius: 3px !important;
 }
 
 .button {
@@ -268,6 +274,7 @@
 }
 .tab-pane .download-json:hover {
   background: rgb(25.7819905213, 85.6872037915, 134.2180094787);
+  color: white;
 }
 
 .json-viewer {
@@ -417,6 +424,54 @@
 .ticket-item:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+.review-item .review-actions,
+.ticket-item .review-actions {
+  text-align: right;
+  margin-top: 10px;
+}
+.review-item .review-actions .view-review-link,
+.ticket-item .review-actions .view-review-link {
+  display: inline-block;
+  color: #0073aa;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.review-item .review-actions .view-review-link:hover,
+.ticket-item .review-actions .view-review-link:hover {
+  color: #005a87;
+  text-decoration: none;
+}
+.review-item .review-actions .view-review-link:focus,
+.ticket-item .review-actions .view-review-link:focus {
+  box-shadow: none;
+  outline: none;
+}
+.review-item .ticket-actions,
+.ticket-item .ticket-actions {
+  text-align: right;
+  margin-top: 10px;
+}
+.review-item .ticket-actions .view-ticket-link,
+.ticket-item .ticket-actions .view-ticket-link {
+  display: inline-block;
+  color: #0073aa;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.review-item .ticket-actions .view-ticket-link:hover,
+.ticket-item .ticket-actions .view-ticket-link:hover {
+  color: #005a87;
+  text-decoration: none;
+}
+.review-item .ticket-actions .view-ticket-link:focus,
+.ticket-item .ticket-actions .view-ticket-link:focus {
+  box-shadow: none;
+  outline: none;
+}
 
 .review-header,
 .ticket-header {
@@ -444,6 +499,15 @@
   font-size: 0.9em;
   color: #666;
   margin-bottom: 10px;
+}
+.review-meta a,
+.ticket-meta a {
+  text-decoration: none;
+}
+.review-meta a:focus,
+.ticket-meta a:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .review-content,

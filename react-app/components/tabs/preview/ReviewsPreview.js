@@ -14,6 +14,8 @@ const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, to
   const safeReviews = Array.isArray(reviews) ? reviews : [];
   const showingCount = safeReviews.length;
 
+   console.log(safeReviews);
+
   return (
     <div className="reviews-preview">
       <p className="summary">
@@ -31,17 +33,30 @@ const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, to
           
           {review.author && review.author.name && (
             <p className="review-meta">
-              By {review.author.name}
+              By <a href={review.author.url} target="_blank" rel="noopener noreferrer">{review.author.name}</a>
               {review.date_formatted && ` on ${review.date_formatted}`}
             </p>
           )}
           
           {review.description && (
             <p className="review-content">
-              {review.description.substring(0, 200)}
-              {review.description.length > 200 && '...'}
+               {review.description}
             </p>
           )}
+
+          {review.url && (
+            <div className="review-actions">
+              <a 
+                href={review.url} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="view-review-link"
+              >
+                View Review →
+              </a>
+            </div>
+          )}
+
         </div>
       ))}
       

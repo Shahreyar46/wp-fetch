@@ -40,81 +40,87 @@ const PluginForm = ({ onSubmit, isProcessing, onCancel, error }) => {
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="plugin-slug">Plugin Slug:</label>
-          <input
-            type="text"
-            id="plugin-slug"
-            name="plugin_slug"
-            value={formData.plugin_slug}
-            onChange={handleInputChange}
-            placeholder="wp-file-manager"
-            className="regular-text"
-            disabled={isProcessing}
-          />
+          <div className="input-wrapper">
+            <label htmlFor="plugin-slug">Plugin Slug:</label>
+            <input
+              type="text"
+              id="plugin-slug"
+              name="plugin_slug"
+              value={formData.plugin_slug}
+              onChange={handleInputChange}
+              placeholder="wp-file-manager"
+              className="regular-text"
+              disabled={isProcessing}
+            />
+          </div>
           <p className="description">
             The slug is the last part of the plugin URL. For example, for https://wordpress.org/plugins/wp-file-manager/, the slug is "wp-file-manager".
           </p>
         </div>
         
         <div className="form-group">
-          <label>Data to fetch:</label>
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="fetch_details"
-                checked={formData.fetch_details}
-                onChange={handleInputChange}
-                disabled={isProcessing}
-              />
-              Plugin Details
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="fetch_reviews"
-                checked={formData.fetch_reviews}
-                onChange={handleInputChange}
-                disabled={isProcessing}
-              />
-              Reviews
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="fetch_support"
-                checked={formData.fetch_support}
-                onChange={handleInputChange}
-                disabled={isProcessing}
-              />
-              Support Threads
-            </label>
+           <div className="input-wrapper">
+            <label>Data to fetch:</label>
+            <div className="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  name="fetch_details"
+                  checked={formData.fetch_details}
+                  onChange={handleInputChange}
+                  disabled={isProcessing}
+                />
+                Plugin Details
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="fetch_reviews"
+                  checked={formData.fetch_reviews}
+                  onChange={handleInputChange}
+                  disabled={isProcessing}
+                />
+                Reviews
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="fetch_support"
+                  checked={formData.fetch_support}
+                  onChange={handleInputChange}
+                  disabled={isProcessing}
+                />
+                Support Threads
+              </label>
+            </div>
           </div>
         </div>
         
         <div className="form-group">
-          <label htmlFor="max-items">Maximum Items to Fetch:</label>
-          <select
-            id="max-items"
-            name="max_items"
-            value={formData.max_items}
-            onChange={handleInputChange}
-            className="regular-text"
-            disabled={isProcessing}
-          >
-            <option value="10">10 items</option>
-            <option value="50">50 items</option>
-            <option value="100">100 items</option>
-            <option value="200">200 items</option>
-            <option value="500">500 items</option>
-            <option value="1000">1,000 items</option>
-            <option value="2000">2,000 items</option>
-            <option value="5000">5,000 items</option>
-            <option value="999999">All items</option>
-          </select>
-          <p className="description">
-            Number of reviews and support threads to fetch. Large numbers are processed in batches.
-          </p>
+           <div className="input-wrapper">
+            <label htmlFor="max-items">Maximum Items to Fetch:</label>
+            <select
+              id="max-items"
+              name="max_items"
+              value={formData.max_items}
+              onChange={handleInputChange}
+              className="regular-text"
+              disabled={isProcessing}
+            >
+              <option value="10">10 items</option>
+              <option value="50">50 items</option>
+              <option value="100">100 items</option>
+              <option value="200">200 items</option>
+              <option value="500">500 items</option>
+              <option value="1000">1,000 items</option>
+              <option value="2000">2,000 items</option>
+              <option value="5000">5,000 items</option>
+              <option value="999999">All items</option>
+            </select>
+          </div>
+            <p className="description">
+              Number of reviews and support threads to fetch. Large numbers are processed in batches.
+            </p>
         </div>
         
         <div className="form-group">

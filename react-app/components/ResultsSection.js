@@ -94,8 +94,8 @@ const ResultsSection = ({ results, batchId, api, onDownload }) => {
 
   const copyToClipboard = (type) => {
     let textToCopy = '';
-    
-    switch(type) {
+
+    switch (type) {
       case 'details':
         textToCopy = JSON.stringify(batchData.details || {}, null, 2);
         break;
@@ -108,18 +108,45 @@ const ResultsSection = ({ results, batchId, api, onDownload }) => {
       default:
         return;
     }
-    
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      const button = document.querySelector(`[data-type="${type}"].copy-json`);
-      if (button) {
-        const originalText = button.textContent;
-        button.textContent = 'Copied!';
-        setTimeout(() => {
-          button.textContent = originalText;
-        }, 2000);
+
+    const fallbackCopy = () => {
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = textToCopy;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Fallback: Copy failed', err);
       }
-    });
+      document.body.removeChild(tempTextArea);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showCopySuccess(type);
+      }).catch(err => {
+        console.warn('navigator.clipboard failed, falling back.', err);
+        fallbackCopy();
+        showCopySuccess(type);
+      });
+    } else {
+      fallbackCopy();
+      showCopySuccess(type);
+    }
   };
+
+  const showCopySuccess = (type) => {
+    const button = document.querySelector(`[data-type="${type}"].copy-json`);
+    if (button) {
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 2000);
+    }
+  };
+
 
   const getTabStyle = (tabName) => ({
     display: activeTab === tabName ? 'block' : 'none',
