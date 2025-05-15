@@ -10,16 +10,16 @@ const ResultsSection = ({ results, batchId, api, onDownload }) => {
   const [activeTab, setActiveTab] = useState('details');
   const [batchData, setBatchData] = useState(results.data || {});
   const [pagination, setPagination] = useState({
-    reviews: results.pagination?.reviews || { page: 1, per_page: 20, loading: false, has_more: false },
-    support: results.pagination?.support || { page: 1, per_page: 20, loading: false, has_more: false }
+    reviews: results.pagination?.reviews || { page: 1, per_page: 1000, loading: false, has_more: false },
+    support: results.pagination?.support || { page: 1, per_page: 1000, loading: false, has_more: false }
   });
 
   useEffect(() => {
     console.log('ResultsSection received results:', results);
     setBatchData(results.data || {});
     setPagination({
-      reviews: results.pagination?.reviews || { page: 1, per_page: 20, loading: false, has_more: false },
-      support: results.pagination?.support || { page: 1, per_page: 20, loading: false, has_more: false }
+      reviews: results.pagination?.reviews || { page: 1, per_page: 1000, loading: false, has_more: false },
+      support: results.pagination?.support || { page: 1, per_page: 1000, loading: false, has_more: false }
     });
   }, [results]);
 
@@ -28,41 +28,66 @@ const ResultsSection = ({ results, batchId, api, onDownload }) => {
 
     setPagination(prev => ({
       ...prev,
-      [type]: { ...prev[type], loading: true, page: prev[type].page + 1 }
+      [type]: { ...prev[type], loading: true }
     }));
 
     try {
+      // Load with a very large page size to get all remaining data at once
+      // This ensures we get ALL data regardless of the total count (10, 50, 100, 200, 500, 1000, 2000, 5000, or All)
       const response = await api.get(`/batch/download/${batchId}`, {
         params: {
           type: type,
           page: pagination[type].page + 1,
-          per_page: pagination[type].per_page
+          per_page: 10000 // Very large to ensure we get everything
         }
       });
 
+      console.log(`Load more ${type} response:`, response.data);
+
+      // Extract the data based on type
+      const responseData = response.data.data;
+      const newItems = type === 'reviews' 
+        ? (responseData.reviews || [])
+        : (responseData.tickets || []);
+      
+      // Ensure current data exists
+      const currentData = batchData[type] || {};
+      const currentItems = type === 'reviews'
+        ? (currentData.reviews || [])
+        : (currentData.tickets || []);
+
+      // Get the total count from the response or existing data
+      const totalCount = type === 'reviews' 
+        ? (responseData.review_count || currentData.review_count || 0)
+        : (responseData.ticket_count || currentData.ticket_count || 0);
+
+      // Merge with existing data
       setBatchData(prev => ({
         ...prev,
         [type]: {
-          ...prev[type],
+          ...currentData,
           [type === 'reviews' ? 'reviews' : 'tickets']: [
-            ...prev[type][type === 'reviews' ? 'reviews' : 'tickets'],
-            ...response.data.data[type === 'reviews' ? 'reviews' : 'tickets']
-          ]
+            ...currentItems,
+            ...newItems
+          ],
+          [type === 'reviews' ? 'review_count' : 'ticket_count']: totalCount
         }
       }));
 
+      // Update pagination
       setPagination(prev => ({
         ...prev,
         [type]: {
           ...response.data.pagination,
-          loading: false
+          loading: false,
+          page: response.data.pagination.page
         }
       }));
     } catch (error) {
       console.error('Failed to load more items:', error);
       setPagination(prev => ({
         ...prev,
-        [type]: { ...prev[type], loading: false, page: prev[type].page - 1 }
+        [type]: { ...prev[type], loading: false }
       }));
     }
   };
@@ -96,7 +121,6 @@ const ResultsSection = ({ results, batchId, api, onDownload }) => {
     });
   };
 
-  // Simple tab style for active/inactive
   const getTabStyle = (tabName) => ({
     display: activeTab === tabName ? 'block' : 'none',
     padding: '20px',

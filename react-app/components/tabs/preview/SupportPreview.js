@@ -1,18 +1,16 @@
 import React from 'react';
 
-const SupportPreview = ({ tickets = [], totalCount = 0, currentlyShowing = 0, totalLoaded = 0, pagination = {}, onLoadMore }) => {
+const SupportPreview = ({ tickets = [], totalCount = 0, currentlyShowing = 0, totalLoaded = 0, pagination = {}, onLoadMore, hasMore = false }) => {
   // Ensure tickets is an array
   const safeTickets = Array.isArray(tickets) ? tickets : [];
   const showingCount = safeTickets.length;
   const resolved = safeTickets.filter(t => t.resolved).length;
   const open = showingCount - resolved;
-  const hasMoreToShow = currentlyShowing < totalLoaded;
-  const hasMoreToLoad = pagination?.has_more || false;
 
   return (
     <div className="support-preview">
       <p className="summary">
-        Showing {showingCount} of {totalLoaded} loaded tickets (Total: {totalCount}) - {resolved} resolved, {open} open
+        Showing {showingCount} of {totalCount} tickets - {resolved} resolved, {open} open
       </p>
       
       {safeTickets.map((ticket, index) => (
@@ -39,7 +37,7 @@ const SupportPreview = ({ tickets = [], totalCount = 0, currentlyShowing = 0, to
         </div>
       ))}
       
-      {(hasMoreToShow || hasMoreToLoad) && (
+      {hasMore && (
         <div className="load-more-preview">
           <button 
             className="button load-more-preview-btn" 

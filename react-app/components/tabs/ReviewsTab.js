@@ -22,13 +22,14 @@ const ReviewsTab = ({ data, pagination, onCopy, onDownload, onLoadMore }) => {
   const getSummaryText = () => {
     if (!data) return 'No reviews data available';
     
-    const reviewCount = data.review_count || 0;
-    let summaryText = `Total: ${reviewCount} reviews`;
+    const totalCount = data.review_count || 0;
+    const currentCount = data.reviews ? data.reviews.length : 0;
+    let summaryText = `Total: ${totalCount} reviews`;
     
-    if (reviewCount > 0 && data.reviews && data.reviews.length > 0) {
+    if (currentCount > 0 && data.reviews) {
       const avgRating = calculateAverageRating(data.reviews);
       if (avgRating > 0) {
-        summaryText += `, Average rating (showing ${data.reviews.length}): ${avgRating.toFixed(1)}/5`;
+        summaryText += `, Average rating (showing ${currentCount}): ${avgRating.toFixed(1)}/5`;
       }
     }
     
@@ -49,7 +50,7 @@ const ReviewsTab = ({ data, pagination, onCopy, onDownload, onLoadMore }) => {
       <pre className="json-viewer" id="json-reviews">
         {data ? JSON.stringify(data, null, 2) : '{\n  "review_count": 0,\n  "reviews": []\n}'}
       </pre>
-      {pagination && pagination.has_more && data && data.reviews && data.reviews.length > 0 && (
+      {pagination && pagination.has_more && (
         <div className="load-more-container">
           <button 
             className="button load-more-btn" 

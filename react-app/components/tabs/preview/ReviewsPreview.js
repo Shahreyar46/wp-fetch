@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, totalLoaded = 0, pagination = {}, onLoadMore }) => {
+const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, totalLoaded = 0, pagination = {}, onLoadMore, hasMore = false }) => {
   const getStars = (rating) => {
     let stars = '';
     rating = parseInt(rating) || 0;
@@ -13,13 +13,11 @@ const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, to
   // Ensure reviews is an array
   const safeReviews = Array.isArray(reviews) ? reviews : [];
   const showingCount = safeReviews.length;
-  const hasMoreToShow = currentlyShowing < totalLoaded;
-  const hasMoreToLoad = pagination?.has_more || false;
 
   return (
     <div className="reviews-preview">
       <p className="summary">
-        Showing {showingCount} of {totalLoaded} loaded reviews (Total: {totalCount})
+        Showing {showingCount} of {totalCount} reviews
       </p>
       
       {safeReviews.map((review, index) => (
@@ -47,7 +45,7 @@ const ReviewsPreview = ({ reviews = [], totalCount = 0, currentlyShowing = 0, to
         </div>
       ))}
       
-      {(hasMoreToShow || hasMoreToLoad) && (
+      {hasMore && (
         <div className="load-more-preview">
           <button 
             className="button load-more-preview-btn" 

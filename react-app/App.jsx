@@ -3,6 +3,7 @@ import axios from 'axios';
 import PluginForm from './components/PluginForm';
 import ProgressBar from './components/ProgressBar';
 import ResultsSection from './components/ResultsSection';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = () => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -94,8 +95,9 @@ const App = () => {
     // Wait a moment for database to be fully updated
     setTimeout(async () => {
       try {
+        // Load all data that was fetched, regardless of the amount (10, 50, 100, 200, 500, 1000, 2000, 5000, or All)
         const resultsResponse = await api.get(`/batch/download/${batchId}`, {
-          params: { type: 'all', page: 1, per_page: 20 }
+          params: { type: 'all', page: 1, per_page: 10000 } // Very large to ensure we get everything
         });
         console.log('Batch complete results:', resultsResponse.data);
         setBatchResults(resultsResponse.data);
@@ -135,35 +137,39 @@ const App = () => {
   };
 
   return (
-    <div className="wrap">
-      <h1>WordPress Plugin Data Fetcher</h1>
-      
-      <PluginForm 
-        onSubmit={startBatchProcess}
-        isProcessing={isProcessing}
-        onCancel={cancelBatch}
-        error={error}
-      />
-      
-      {isProcessing && (
-        <ProgressBar 
-          progress={progressData.progress}
-          status={progressData.status}
-          current={progressData.current}
-          total={progressData.total}
-          currentType={progressData.currentType}
+    <ErrorBoundary>
+      <div className="wrap">
+        <h1>WordPress Plugin Data Fetcher</h1>
+        
+        <PluginForm 
+          onSubmit={startBatchProcess}
+          isProcessing={isProcessing}
+          onCancel={cancelBatch}
+          error={error}
         />
-      )}
-      
-      {batchResults && !isProcessing && (
-        <ResultsSection 
-          results={batchResults}
-          batchId={currentBatchId}
-          api={api}
-          onDownload={downloadResults}
-        />
-      )}
-    </div>
+        
+        {isProcessing && (
+          <ProgressBar 
+            progress={progressData.progress}
+            status={progressData.status}
+            current={progressData.current}
+            total={progressData.total}
+            currentType={progressData.currentType}
+          />
+        )}
+        
+        {batchResults && !isProcessing && (
+          <ErrorBoundary>
+            <ResultsSection 
+              results={batchResults}
+              batchId={currentBatchId}
+              api={api}
+              onDownload={downloadResults}
+            />
+          </ErrorBoundary>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 
